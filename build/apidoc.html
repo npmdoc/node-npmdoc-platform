@@ -1,0 +1,402 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/bestiejs/platform.js#readme"
+
+    >platform (v1.3.4)</a>
+</h1>
+<h4>A platform detection library that works on nearly all JavaScript platforms.</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.platform">module platform</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.platform.parse">
+            function <span class="apidocSignatureSpan">platform.</span>parse
+            <span class="apidocSignatureSpan">(ua)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>description</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>layout</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>manufacturer</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>name</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>os</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>prerelease</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>product</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>ua</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.</span>version</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.platform.os">module platform.os</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.platform.os.toString">
+            function <span class="apidocSignatureSpan">platform.os.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.os.</span>architecture</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.os.</span>family</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">platform.os.</span>version</span>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.platform" id="apidoc.module.platform">module platform</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.platform.parse" id="apidoc.element.platform.parse">
+        function <span class="apidocSignatureSpan">platform.</span>parse
+        <span class="apidocSignatureSpan">(ua)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function parse(ua) {
+
+<span class="apidocCodeCommentSpan">  /** The environment context object. */
+</span>  var context = root;
+
+  /** Used to flag when a custom context is provided. */
+  var isCustomContext = ua &#x26;&#x26; typeof ua == &#x27;object&#x27; &#x26;&#x26; getClassOf(ua) != &#x27;String&#x27;;
+
+  // Juggle arguments.
+  if (isCustomContext) {
+    context = ua;
+    ua = null;
+  }
+
+  /** Browser navigator object. */
+  var nav = context.navigator || {};
+
+  /** Browser user agent string. */
+  var userAgent = nav.userAgent || &#x27;&#x27;;
+
+  ua || (ua = userAgent);
+
+  /** Used to flag when `thisBinding` is the [ModuleScope]. */
+  var isModuleScope = isCustomContext || thisBinding == oldRoot;
+
+  /** Used to detect if browser is like Chrome. */
+  var likeChrome = isCustomContext
+    ? !!nav.likeChrome
+    : /\bChrome\b/.test(ua) &#x26;&#x26; !/internal|\n/i.test(toString.toString());
+
+  /** Internal `[[Class]]` value shortcuts. */
+  var objectClass = &#x27;Object&#x27;,
+      airRuntimeClass = isCustomContext ? objectClass : &#x27;ScriptBridgingProxyObject&#x27;,
+      enviroClass = isCustomContext ? objectClass : &#x27;Environment&#x27;,
+      javaClass = (isCustomContext &#x26;&#x26; context.java) ? &#x27;JavaPackage&#x27; : getClassOf(context.java),
+      phantomClass = isCustomContext ? objectClass : &#x27;RuntimeObject&#x27;;
+
+  /** Detect Java environments. */
+  var java = /\bJava/.test(javaClass) &#x26;&#x26; context.java;
+
+  /** Detect Rhino. */
+  var rhino = java &#x26;&#x26; getClassOf(context.environment) == enviroClass;
+
+  /** A character to represent alpha. */
+  var alpha = java ? &#x27;a&#x27; : &#x27;\u03b1&#x27;;
+
+  /** A character to represent beta. */
+  var beta = java ? &#x27;b&#x27; : &#x27;\u03b2&#x27;;
+
+  /** Browser document object. */
+  var doc = context.document || {};
+
+  /**
+   * Detect Opera browser (Presto-based).
+   * http://www.howtocreate.co.uk/operaStuff/operaObject.html
+   * http://dev.opera.com/articles/view/opera-mini-web-content-authoring-guidelines/#operamini
+   */
+  var opera = context.operamini || context.opera;
+
+  /** Opera `[[Class]]`. */
+  var operaClass = reOpera.test(operaClass = (isCustomContext &#x26;&#x26; opera) ? opera[&#x27;[[Class]]&#x27;] : getClassOf(opera))
+    ? operaClass
+    : (opera = null);
+
+  /*------------------------------------------------------------------------*/
+
+  /** Temporary variable used over the script&#x27;s lifetime. */
+  var data;
+
+  /** The CPU architecture. */
+  var arch = ua;
+
+  /** Platform description array. */
+  var description = [];
+
+  /** Platform alpha/beta indicator. */
+  var prerelease = null;
+
+  /** A flag to indicate that environment features should be used to resolve the platform. */
+  var useFeatures = ua == userAgent;
+
+  /** The browser/environment version. */
+  var version = useFeatures &#x26;&#x26; opera &#x26;&#x26; typeof opera.version == &#x27;function&#x27; &#x26;&#x26; opera.version();
+
+  /** A flag to indicate if the OS ends with &#x22;/ Version&#x22; */
+  var isSpecialCasedOS;
+
+  /* Detectable layout engines (order is important). */
+  var layout = getLayout([
+    { &#x27;label&#x27;: &#x27;EdgeHTML&#x27;, &#x27;pattern&#x27;: &#x27;Edge&#x27; },
+    &#x27;Trident&#x27;,
+    { &#x27;label&#x27;: &#x27;WebKit&#x27;, &#x27;pattern&#x27;: &#x27;AppleWebKit&#x27; },
+    &#x27;iCab&#x27;,
+    &#x27;Presto&#x27;,
+    &#x27;NetFront&#x27;,
+    &#x27;Tasman&#x27;,
+    &#x27;KHTML&#x27;,
+    &#x27;Gecko&#x27;
+  ]);
+
+  /* Detectable browser names (order is important). */
+  var name = getName([
+    &#x27;Adobe AIR&#x27;,
+    &#x27;Arora&#x27;,
+    &#x27;Avant Browser&#x27;,
+    &#x27;Breach&#x27;,
+    &#x27;Camino&#x27;,
+    &#x27;Electron&#x27;,
+    &#x27;Epiphany&#x27;,
+    &#x27;Fennec&#x27;,
+    &#x27;Flock&#x27;,
+    &#x27;Galeon&#x27;,
+    &#x27;GreenBrowser&#x27;,
+    &#x27;iCab&#x27;,
+    &#x27;Iceweasel&#x27;,
+    &#x27;K-Meleon&#x27;,
+    &#x27;Konqueror&#x27;,
+    &#x27;Lunascape&#x27;,
+    &#x27;Maxthon&#x27;,
+    { &#x27;label&#x27;: &#x27;Microsoft Edge&#x27;, &#x27;pattern&#x27;: &#x27;Edge&#x27; },
+    &#x27;Midori&#x27;,
+    &#x27;Nook Browser&#x27;,
+    &#x27;PaleMoon&#x27;,
+    &#x27;PhantomJS&#x27;,
+    &#x27;Raven&#x27;,
+    &#x27;Rekonq&#x27;,
+    &#x27;RockMelt&#x27;,
+    { &#x27;label&#x27;: &#x27;Samsung Internet&#x27;, &#x27;pattern&#x27;: &#x27;SamsungBrowser&#x27; },
+    &#x27;SeaMonkey&#x27;,
+    { &#x27;label&#x27;: &#x27;Silk&#x27;, &#x27;pattern&#x27;: &#x27;(?:Cloud9|Silk-Accelerated)&#x27; },
+    &#x27;Sleipnir&#x27;,
+    &#x27;SlimBrowser&#x27;,
+    { &#x27;label&#x27;: &#x27;SRWare Iron&#x27;, &#x27;pattern&#x27;: &#x27;Iron&#x27; },
+    &#x27;Sunrise&#x27;,
+    &#x27;Swiftfox&#x27;,
+    &#x27;Waterfox&#x27;,
+    &#x27;WebPositive&#x27;,
+    &#x27;Opera Mini&#x27;,
+    { &#x27;label&#x27;: &#x27;Opera Mini&#x27;, &#x27;pattern&#x27;: &#x27;OPiOS&#x27; },
+    &#x27;Opera&#x27;,
+    { &#x27;label&#x27;: &#x27;Opera&#x27;, &#x27;pattern&#x27;: &#x27;OPR&#x27; },
+    &#x27;Chrome&#x27;,
+    { &#x27;label&#x27;: &#x27;Chrome Mobile&#x27;, &#x27;pattern&#x27;: &#x27;(?:CriOS|CrMo)&#x27; },
+    { &#x27;label&#x27;: &#x27;Firefox&#x27;, &#x27;pattern&#x27;: &#x27;(?:Firefox|Minefie ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+platform.product; // &#x27;iPad&#x27;
+platform.manufacturer; // &#x27;Apple&#x27;
+platform.layout; // &#x27;WebKit&#x27;
+platform.os; // &#x27;iOS 5.0&#x27;
+platform.description; // &#x27;Safari 5.1 on Apple iPad (iOS 5.0)&#x27;
+
+// or parsing a given UA string
+var info = platform.<span class="apidocCodeKeywordSpan">parse</span>(&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7.2; en; rv
+:2.0) Gecko/20100101 Firefox/4.0 Opera 11.52&#x27;);
+info.name; // &#x27;Opera&#x27;
+info.version; // &#x27;11.52&#x27;
+info.layout; // &#x27;Presto&#x27;
+info.os; // &#x27;Mac OS X 10.7.2&#x27;
+info.description; // &#x27;Opera 11.52 (identifying as Firefox 4.0) on Mac OS X 10.7.2&#x27;
+```
+...</pre></li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.platform.os" id="apidoc.module.platform.os">module platform.os</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.platform.os.toString" id="apidoc.element.platform.os.toString">
+        function <span class="apidocSignatureSpan">platform.os.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () { return &#x27;null&#x27;; }</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+/** Used to flag when `thisBinding` is the [ModuleScope]. */
+var isModuleScope = isCustomContext || thisBinding == oldRoot;
+
+/** Used to detect if browser is like Chrome. */
+var likeChrome = isCustomContext
+  ? !!nav.likeChrome
+  : /\bChrome\b/.test(ua) &#x26;&#x26; !/internal|\n/i.test(toString.<span class="apidocCodeKeywordSpan">toString</span>());
+
+/** Internal `[[Class]]` value shortcuts. */
+var objectClass = &#x27;Object&#x27;,
+    airRuntimeClass = isCustomContext ? objectClass : &#x27;ScriptBridgingProxyObject&#x27;,
+    enviroClass = isCustomContext ? objectClass : &#x27;Environment&#x27;,
+    javaClass = (isCustomContext &#x26;&#x26; context.java) ? &#x27;JavaPackage&#x27; : getClassOf(context.java),
+    phantomClass = isCustomContext ? objectClass : &#x27;RuntimeObject&#x27;;
+...</pre></li>
+    </ul>
+
+
+
+
+
+
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
