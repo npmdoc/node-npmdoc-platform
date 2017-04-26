@@ -1,6 +1,6 @@
 # npmdoc-platform
 
-#### api documentation for  [platform (v1.3.4)](https://github.com/bestiejs/platform.js#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-platform.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-platform) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-platform.svg)](https://travis-ci.org/npmdoc/node-npmdoc-platform)
+#### basic api documentation for  [platform (v1.3.4)](https://github.com/bestiejs/platform.js#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-platform.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-platform) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-platform.svg)](https://travis-ci.org/npmdoc/node-npmdoc-platform)
 
 #### A platform detection library that works on nearly all JavaScript platforms.
 
@@ -88,7 +88,8 @@
         "doc": "docdown platform.js doc/README.md style=github title=\"Platform.js <sup>v${npm_package_version}</sup>\" toc=properties url=https://github.com/bestiejs/platform.js/blob/${npm_package_version}/platform.js",
         "test": "node test/test"
     },
-    "version": "1.3.4"
+    "version": "1.3.4",
+    "bin": {}
 }
 ```
 
